@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ColorPicker  </title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <style>
+        #red, #green, #blue {
+            float: left;
+            clear: left;
+            width: 300px;
+            margin: 15px;
+        }
+        #swatch {
+            width: 120px;
+            height: 100px;
+            margin-top: 18px;
+            margin-left: 350px;
+            background-image: none;
+            text-align: center;
+        }
+        #red .ui-slider-range { background: #ef2929; }
+        #red .ui-slider-handle { border-color: #ef2929; }
+        #green .ui-slider-range { background: #8ae234; }
+        #green .ui-slider-handle { border-color: #8ae234; }
+        #blue .ui-slider-range { background: #729fcf; }
+        #blue .ui-slider-handle { border-color: #729fcf; }
+        .button-color{
+            background-color: cyan;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            function hexFromRGB(r, g, b) {
+                var hex = [
+                    r.toString( 16 ),
+                    g.toString( 16 ),
+                    b.toString( 16 )
+                ];
+                $.each( hex, function( nr, val ) {
+                    if ( val.length === 1 ) {
+                        hex[ nr ] = "0" + val;
+                    }
+                });
+                return hex.join( "" ).toUpperCase();
+            }
+            var firedButton = 'backgroundColor'
+                $('#textColor').click(function (){
+                    let selectedButton = $(this).attr('data-value');
+                    $('#backgroundColor').removeClass('button-color')
+                    $(this).toggleClass('button-color')
+                    firedButton = selectedButton
+                })
+            $('#backgroundColor').click(function (){
+                let selectedButton = $(this).attr('data-value');
+                $('#textColor').removeClass('button-color')
+                $(this).toggleClass('button-color')
+                firedButton = selectedButton
+            })
+            function refreshColor() {
+                if (firedButton === 'Color'){
+                    let red = $( "#red" ).slider( "value" ),
+                        green = $( "#green" ).slider( "value" ),
+                        blue = $( "#blue" ).slider( "value" ),
+                        hex = hexFromRGB( red, green, blue );
+                    $("#quote").css("color", "#" + hex);
+                }
+                if (firedButton === 'backgroundColor') {
+                    let red = $("#red").slider("value"),
+                        green = $("#green").slider("value"),
+                        blue = $("#blue").slider("value"),
+                        hex = hexFromRGB(red, green, blue);
+                    $("#swatch").css("background-color", "#" + hex);
+                }
+            }
+
+            $( "#red, #green, #blue" ).slider({
+                orientation: "horizontal",
+                range: "min",
+                max: 255,
+                value: 127,
+                slide: refreshColor,
+                change: refreshColor
+            });
+            $( "#red" ).slider( "value", 60 );
+            $( "#green" ).slider( "value", 140 );
+            $( "#blue" ).slider( "value", 60 );
+        } );
+    </script>
+</head>
+<body class="ui-widget-content" style="border:0;">
+
+<fieldset>
+    <legend>Select:</legend>
+    <button id="textColor" data-value="Color">Color</button>
+    <button id="backgroundColor" data-value="backgroundColor" class="button-color">backgroundColor</button>
+</fieldset>
+
+<div id="red"></div>
+<div id="green"></div>
+<div id="blue"></div>
+<div id="swatch">
+    <text id="quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit</text>
+</div>
+
+
+</body>
+</html>

@@ -36,59 +36,55 @@
     <script>
         $( function() {
             function hexFromRGB(r, g, b) {
-                var hex = [
+                const hex = [
                     r.toString( 16 ),
                     g.toString( 16 ),
                     b.toString( 16 )
                 ];
                 $.each( hex, function( nr, val ) {
                     if ( val.length === 1 ) {
-                        hex[ nr ] = "0" + val;
+                        hex[ nr ] = '0' + val;
                     }
                 });
-                return hex.join( "" ).toUpperCase();
+                return hex.join( '' ).toUpperCase();
             }
             var firedButton = 'backgroundColor'
                 $('#textColor').click(function (){
-                    let selectedButton = $(this).attr('data-value');
+                    const selectedButton = $(this).attr('data-value');
                     $('#backgroundColor').removeClass('button-color')
                     $(this).toggleClass('button-color')
                     firedButton = selectedButton
                 })
             $('#backgroundColor').click(function (){
-                let selectedButton = $(this).attr('data-value');
+                const selectedButton = $(this).attr('data-value');
                 $('#textColor').removeClass('button-color')
                 $(this).toggleClass('button-color')
                 firedButton = selectedButton
             })
             function refreshColor() {
+                const red = $( "#red" ).slider('value'),
+                    green = $( "#green" ).slider('value'),
+                    blue = $( "#blue" ).slider('value'),
+                    hex = hexFromRGB( red, green, blue );
                 if (firedButton === 'Color'){
-                    let red = $( "#red" ).slider( "value" ),
-                        green = $( "#green" ).slider( "value" ),
-                        blue = $( "#blue" ).slider( "value" ),
-                        hex = hexFromRGB( red, green, blue );
-                    $("#quote").css("color", "#" + hex);
+                    $('#quote').css('color', '#' + hex);
                 }
                 if (firedButton === 'backgroundColor') {
-                    let red = $("#red").slider("value"),
-                        green = $("#green").slider("value"),
-                        blue = $("#blue").slider("value"),
-                        hex = hexFromRGB(red, green, blue);
-                    $("#swatch").css("background-color", "#" + hex);
+                    $('#swatch').css('background-color', '#' + hex);
                 }
             }
 
-            $( "#red, #green, #blue" ).slider({
-                orientation: "horizontal",
-                range: "min",
+            $( '#red, #green, #blue' ).slider({
+                orientation: 'horizontal',
+                range: 'min',
                 max: 255,
                 value: 127,
                 slide: refreshColor,
                 change: refreshColor
             });
-            $( "#red" ).slider( "value", 60 );
-            $( "#green" ).slider( "value", 140 );
-            $( "#blue" ).slider( "value", 60 );
+            $( '#red' ).slider('value', 60 );
+            $( '#green' ).slider('value', 140 );
+            $( '#blue' ).slider('value', 60 );
         } );
     </script>
 </head>
@@ -96,7 +92,7 @@
 
 <fieldset>
     <legend>Select:</legend>
-    <button id="textColor" data-value="Color">Color</button>
+    <button id="textColor" data-value="Color"x>Color</button>
     <button id="backgroundColor" data-value="backgroundColor" class="button-color">backgroundColor</button>
 </fieldset>
 
